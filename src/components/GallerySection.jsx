@@ -2,15 +2,16 @@ import React from 'react';
 
 export default function GallerySection({ images, onImageSelect }) {
   return (
-    <section id="gallery" className="page-section-anchor" style={{ padding: '8rem 2rem', background: 'linear-gradient(135deg, #faf8f3 0%, #f5f1e8 100%)', minHeight: '82vh', display: 'flex', alignItems: 'center' }}>
-      <div style={{ maxWidth: '1200px', margin: '0 auto' }}>
+    <section id="gallery" className="page-section-anchor lagom-section" style={{ padding: '10rem 2rem', background: 'linear-gradient(135deg, #faf8f3 0%, #f5f1e8 100%)', minHeight: '100vh', display: 'flex', alignItems: 'center' }}>
+      <div style={{ maxWidth: '1280px', width: '100%', margin: '0 auto' }}>
+        <div className="section-kicker reveal-on-scroll reveal-up">003 / Gallery</div>
         <h2 className="reveal-on-scroll reveal-up" style={{
           fontFamily: '"Playfair Display", serif',
-          fontSize: '3rem',
+          fontSize: 'clamp(3.5rem, 8vw, 7.8rem)',
           fontWeight: 700,
           color: '#1e40af',
-          marginBottom: '3rem',
-          textAlign: 'center'
+          marginBottom: '4rem',
+          lineHeight: 0.95
         }}>
           Our Community
         </h2>

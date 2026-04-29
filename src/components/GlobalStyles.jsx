@@ -34,6 +34,26 @@ export default function GlobalStyles() {
 
       html {
         scroll-behavior: smooth;
+        scrollbar-width: thin;
+        scrollbar-color: rgba(30, 64, 175, 0.45) rgba(241, 245, 249, 0.78);
+      }
+
+      body::-webkit-scrollbar {
+        width: 10px;
+      }
+
+      body::-webkit-scrollbar-track {
+        background: rgba(241, 245, 249, 0.78);
+      }
+
+      body::-webkit-scrollbar-thumb {
+        background: linear-gradient(180deg, rgba(30, 64, 175, 0.52), rgba(245, 158, 11, 0.58));
+        border: 2px solid rgba(241, 245, 249, 0.78);
+        border-radius: 999px;
+      }
+
+      body::-webkit-scrollbar-thumb:hover {
+        background: linear-gradient(180deg, rgba(30, 64, 175, 0.72), rgba(245, 158, 11, 0.78));
       }
 
       .page-section-anchor {
@@ -79,6 +99,16 @@ export default function GlobalStyles() {
 
       .reveal-delay-4 {
         transition-delay: 0.34s;
+      }
+
+      .section-kicker {
+        color: #f59e0b;
+        font-family: "Outfit", sans-serif;
+        font-size: 0.9rem;
+        font-weight: 800;
+        letter-spacing: 0.18em;
+        text-transform: uppercase;
+        margin-bottom: 1.6rem;
       }
 
       a:hover {
@@ -568,6 +598,17 @@ export default function GlobalStyles() {
           padding-top: 6rem !important;
           padding-bottom: 6rem !important;
           display: block !important;
+        }
+
+        .lagom-section > div > div[style*="grid-template-columns"] {
+          grid-template-columns: 1fr !important;
+          gap: 2.5rem !important;
+        }
+
+        .section-kicker {
+          font-size: 0.78rem;
+          letter-spacing: 0.14em;
+          margin-bottom: 1.1rem;
         }
 
         .reveal-up,

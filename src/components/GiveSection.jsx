@@ -3,14 +3,16 @@ import { Heart } from 'lucide-react';
 
 export default function GiveSection() {
   return (
-    <section id="give" className="page-section-anchor" style={{ padding: '8rem 2rem', background: 'linear-gradient(135deg, #fef3e2 0%, #fde8c8 100%)', minHeight: '82vh', display: 'flex', alignItems: 'center' }}>
-      <div style={{ maxWidth: '800px', margin: '0 auto', textAlign: 'center' }}>
+    <section id="give" className="page-section-anchor lagom-section" style={{ padding: '10rem 2rem', background: 'linear-gradient(135deg, #fef3e2 0%, #fde8c8 100%)', minHeight: '100vh', display: 'flex', alignItems: 'center' }}>
+      <div style={{ maxWidth: '920px', width: '100%', margin: '0 auto' }}>
+        <div className="section-kicker reveal-on-scroll reveal-up">005 / Give</div>
         <h2 className="reveal-on-scroll reveal-up" style={{
           fontFamily: '"Playfair Display", serif',
-          fontSize: '3rem',
+          fontSize: 'clamp(3.5rem, 8vw, 7.8rem)',
           fontWeight: 700,
           color: '#1e40af',
-          marginBottom: '2rem'
+          marginBottom: '2rem',
+          lineHeight: 0.95
         }}>
           Give Online
         </h2>

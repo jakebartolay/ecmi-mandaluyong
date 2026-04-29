@@ -3,14 +3,16 @@ import { Play } from 'lucide-react';
 
 export default function LiveStreamSection() {
   return (
-    <section id="live-stream" className="page-section-anchor" style={{ padding: '8rem 2rem', background: 'white', minHeight: '82vh', display: 'flex', alignItems: 'center' }}>
-      <div style={{ maxWidth: '900px', margin: '0 auto', textAlign: 'center' }}>
+    <section id="live-stream" className="page-section-anchor lagom-section" style={{ padding: '10rem 2rem', background: 'white', minHeight: '100vh', display: 'flex', alignItems: 'center' }}>
+      <div style={{ maxWidth: '1080px', width: '100%', margin: '0 auto' }}>
+        <div className="section-kicker reveal-on-scroll reveal-up">004 / Live</div>
         <h2 className="reveal-on-scroll reveal-up" style={{
           fontFamily: '"Playfair Display", serif',
-          fontSize: '3rem',
+          fontSize: 'clamp(3.5rem, 8vw, 7.8rem)',
           fontWeight: 700,
           color: '#1e40af',
-          marginBottom: '2rem'
+          marginBottom: '2rem',
+          lineHeight: 0.95
         }}>
           Watch Us Live
         </h2>
