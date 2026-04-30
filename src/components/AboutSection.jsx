@@ -1,12 +1,69 @@
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
 import { Clock, MapPin } from 'lucide-react';
 
 const mapsLink = 'https://www.google.com/maps/place/Albeso+Space/@14.5793337,121.0476797,21z/data=!4m6!3m5!1s0x3397c95165564011:0xfc35408cb045a1ff!8m2!3d14.5794386!4d121.0478301!16s%2Fg%2F11yl_g9k59?entry=ttu&g_ep=EgoyMDI2MDQyNi4wIKXMDSoASAFQAw%3D%3D';
 
+const bibleVerses = [
+  {
+    text: 'For God so loved the world that He gave His only Son.',
+    reference: 'John 3:16'
+  },
+  {
+    text: 'The Lord is my shepherd; I shall not want.',
+    reference: 'Psalm 23:1'
+  },
+  {
+    text: 'I can do all things through Christ who strengthens me.',
+    reference: 'Philippians 4:13'
+  },
+  {
+    text: 'Be still, and know that I am God.',
+    reference: 'Psalm 46:10'
+  },
+  {
+    text: 'Walk by faith, not by sight.',
+    reference: '2 Corinthians 5:7'
+  }
+];
+
+const verseBackgroundImages = [
+  'https://images.unsplash.com/photo-1507692049790-de58290a4334?w=900&auto=format&fit=crop',
+  'https://images.unsplash.com/photo-1438232992991-995b7058bbb3?w=900&auto=format&fit=crop',
+  'https://images.unsplash.com/photo-1511632765486-a01980e01a18?w=900&auto=format&fit=crop',
+  'https://images.unsplash.com/photo-1529070538774-1843cb3265df?w=900&auto=format&fit=crop'
+];
+
 export default function AboutSection() {
+  const verseStripRef = useRef(null);
+  const verseBgRef = useRef(null);
+
+  useEffect(() => {
+    const updateVerseBackground = () => {
+      const strip = verseStripRef.current;
+      const background = verseBgRef.current;
+
+      if (!strip || !background) return;
+
+      const rect = strip.getBoundingClientRect();
+      const progress = Math.min(Math.max((window.innerHeight - rect.top) / (window.innerHeight + rect.height), 0), 1);
+      const offset = (progress - 0.5) * 70;
+
+      background.style.transform = `translate3d(0, ${offset}px, 0) scale(1.12)`;
+    };
+
+    updateVerseBackground();
+    window.addEventListener('scroll', updateVerseBackground, { passive: true });
+    window.addEventListener('resize', updateVerseBackground);
+
+    return () => {
+      window.removeEventListener('scroll', updateVerseBackground);
+      window.removeEventListener('resize', updateVerseBackground);
+    };
+  }, []);
+
   return (
-    <section id="about" className="page-section-anchor lagom-section about-section" style={{ padding: '4.5rem 2rem 10rem', maxWidth: '1280px', margin: '0 auto', minHeight: '100vh', display: 'flex', alignItems: 'flex-start' }}>
-      <div style={{ width: '100%' }}>
+    <section id="about" className="page-section-anchor lagom-section about-section" style={{ padding: '4.5rem 0 0', minHeight: '100vh', display: 'block' }}>
+      <div className="about-content-shell" style={{ width: '100%', maxWidth: '1280px', margin: '0 auto', padding: '0 2rem 5rem' }}>
         <div className="section-kicker" data-aos="fade-up">001 / About</div>
         <div style={{ display: 'grid', gridTemplateColumns: 'minmax(0, 1.15fr) minmax(320px, 0.85fr)', gap: '5rem', alignItems: 'center' }}>
         <div data-aos="fade-up">
@@ -62,7 +119,30 @@ export default function AboutSection() {
             </p>
           </div>
         </div>
+        </div>
       </div>
+
+      <div ref={verseStripRef} className="about-verse-strip" data-aos="fade-up">
+        <div ref={verseBgRef} className="about-verse-bg-parallax" aria-hidden="true">
+          <div className="about-verse-bg-track">
+            {[...verseBackgroundImages, ...verseBackgroundImages].map((image, index) => (
+              <div
+                className="about-verse-bg-panel"
+                key={`${image}-${index}`}
+                style={{ backgroundImage: `url("${image}")` }}
+              />
+            ))}
+          </div>
+        </div>
+        <div className="about-verse-overlay" aria-hidden="true" />
+        <div className="about-verse-track">
+          {[...bibleVerses, ...bibleVerses].map((verse, index) => (
+            <div className="about-verse-item" key={`${verse.reference}-${index}`}>
+              <strong>"{verse.text}"</strong>
+              <span>{verse.reference}</span>
+            </div>
+          ))}
+        </div>
       </div>
     </section>
   );

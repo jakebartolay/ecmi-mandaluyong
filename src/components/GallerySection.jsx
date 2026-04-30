@@ -1,10 +1,14 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import gsap from 'gsap';
 import { Play } from 'lucide-react';
 
 export default function GallerySection({ images, onImageSelect }) {
   const sectionRef = useRef(null);
   const imageRefs = useRef([]);
+  const svgRef = useRef(null);
+  const [isMobile, setIsMobile] = useState(false);
+  const [lines, setLines] = useState([]);
+  const [hoveredImageIndex, setHoveredImageIndex] = useState(null);
 
   const floatingImages = [
     { image: images[0], index: 0, className: 'gallery-float gallery-float-left' },
@@ -16,8 +20,76 @@ export default function GallerySection({ images, onImageSelect }) {
     { image: images[6], index: 6, className: 'gallery-float gallery-float-far-left' },
     { image: images[7], index: 7, className: 'gallery-float gallery-float-far-right' },
     { image: images[8], index: 8, className: 'gallery-float gallery-float-top-mid' },
-    { image: images[9], index: 9, className: 'gallery-float gallery-float-bottom-left' }
+    { image: images[9], index: 9, className: 'gallery-float gallery-float-bottom-left' },
+    { image: images[10], index: 10, className: 'gallery-float gallery-float-top-left-tiny' },
+    { image: images[11], index: 11, className: 'gallery-float gallery-float-top-right-tiny' },
+    { image: images[12], index: 12, className: 'gallery-float gallery-float-mid-left-tiny' },
+    { image: images[13], index: 13, className: 'gallery-float gallery-float-mid-right-tiny' },
+    { image: images[14], index: 14, className: 'gallery-float gallery-float-bottom-mid-tiny' },
+    { image: images[15], index: 15, className: 'gallery-float gallery-float-bottom-right-tiny' }
   ];
+
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
+
+  useEffect(() => {
+    if (isMobile || !sectionRef.current) return;
+
+    const updateLines = () => {
+      const section = sectionRef.current;
+      if (!section) return;
+      
+      const centerX = section.offsetWidth / 2;
+      const centerY = section.offsetHeight / 2;
+      
+      const newLines = imageRefs.current
+        .map((el, idx) => {
+          if (!el) return null;
+          const rect = el.getBoundingClientRect();
+          const sectionRect = section.getBoundingClientRect();
+          const imageX = rect.left - sectionRect.left + rect.width / 2;
+          const imageY = rect.top - sectionRect.top + rect.height / 2;
+          return { idx, x1: centerX, y1: centerY, x2: imageX, y2: imageY };
+        })
+        .filter(Boolean);
+      
+      setLines(newLines);
+    };
+
+    let animationFrameId;
+    const startAnimationLoop = () => {
+      const loop = () => {
+        updateLines();
+        animationFrameId = requestAnimationFrame(loop);
+      };
+      loop();
+    };
+
+    startAnimationLoop();
+    
+    const observer = new ResizeObserver(updateLines);
+    observer.observe(sectionRef.current);
+    
+    imageRefs.current.forEach(el => {
+      if (el) observer.observe(el);
+    });
+
+    window.addEventListener('scroll', updateLines);
+    window.addEventListener('resize', updateLines);
+
+    return () => {
+      cancelAnimationFrame(animationFrameId);
+      observer.disconnect();
+      window.removeEventListener('scroll', updateLines);
+      window.removeEventListener('resize', updateLines);
+    };
+  }, [isMobile]);
 
   useEffect(() => {
     const section = sectionRef.current;
@@ -38,7 +110,13 @@ export default function GallerySection({ images, onImageSelect }) {
       { x: 18, y: 18, rotate: -1.2 },
       { x: 18, y: 18, rotate: 1.2 },
       { x: 18, y: 16, rotate: 1 },
-      { x: 18, y: 16, rotate: -1 }
+      { x: 18, y: 16, rotate: -1 },
+      { x: 14, y: 12, rotate: 0.8 },
+      { x: 14, y: 12, rotate: -0.8 },
+      { x: 12, y: 14, rotate: 0.8 },
+      { x: 12, y: 14, rotate: -0.8 },
+      { x: 14, y: 10, rotate: 0.7 },
+      { x: 14, y: 10, rotate: -0.7 }
     ];
     const scrollMovement = [
       -36,
@@ -50,7 +128,13 @@ export default function GallerySection({ images, onImageSelect }) {
       -18,
       20,
       -20,
-      22
+      22,
+      -14,
+      16,
+      -12,
+      12,
+      -14,
+      14
     ];
     let mouseProgress = { x: 0, y: 0 };
     let scrollProgress = 0;
@@ -110,8 +194,49 @@ export default function GallerySection({ images, onImageSelect }) {
   }, []);
 
   return (
-    <section id="gallery" ref={sectionRef} className="page-section-anchor community-gallery-section">
-      {floatingImages.filter(({ image }) => image).map(({ image, index, className }) => (
+    <section id="gallery" ref={sectionRef} className="page-section-anchor community-gallery-section" style={{ position: 'relative' }}>
+      <svg
+        ref={svgRef}
+        className="gallery-network-lines"
+        aria-hidden="true"
+        style={{
+          position: 'absolute',
+          inset: 0,
+          width: '100%',
+          height: '100%',
+          pointerEvents: 'none',
+          zIndex: 1
+        }}
+      >
+        <defs>
+          <marker id="star-marker" markerWidth="14" markerHeight="14" refX="7" refY="7" markerUnits="userSpaceOnUse">
+            <polygon points="7,0 9,5 14,6 10,10 11,15 7,12 3,15 4,10 0,6 5,5" fill="rgba(30, 64, 175, 0.8)" />
+          </marker>
+        </defs>
+        {lines.map((line) => {
+          const isHovered = hoveredImageIndex === line.idx;
+          return (
+            <line
+              key={`line-${line.idx}`}
+              x1={line.x1}
+              y1={line.y1}
+              x2={line.x2}
+              y2={line.y2}
+              stroke={isHovered ? 'rgba(30, 64, 175, 0.85)' : 'rgba(30, 64, 175, 0.35)'}
+              strokeWidth={isHovered ? '2.5' : '1.5'}
+              markerEnd="url(#star-marker)"
+              strokeDasharray={isHovered ? '6,2' : '4,3'}
+              style={{ transition: 'all 0.3s ease' }}
+            />
+          );
+        })}
+      </svg>
+
+      <div className="gallery-network-lines" aria-hidden="true" style={{ pointerEvents: 'none' }}>
+        <span className="gallery-network-node node-center" />
+      </div>
+
+      {!isMobile && floatingImages.filter(({ image }) => image).map(({ image, index, className }) => (
         <button
           key={image.caption}
           ref={(element) => {
@@ -120,6 +245,8 @@ export default function GallerySection({ images, onImageSelect }) {
           type="button"
           className={className}
           onClick={() => onImageSelect(index)}
+          onMouseEnter={() => setHoveredImageIndex(index)}
+          onMouseLeave={() => setHoveredImageIndex(null)}
           aria-label={`Open ${image.caption}`}
         >
           <img src={image.url} alt={image.caption} />
@@ -132,11 +259,11 @@ export default function GallerySection({ images, onImageSelect }) {
       ))}
 
       <div className="gallery-center-copy">
-        <div className="section-kicker">003 / Community Gallery</div>
-        <h2>Gallery</h2>
+        <div className="section-kicker">003 / Gallery</div>
+        <h2>ECMI Family</h2>
         <p>Stories of worship, fellowship, and faith from our ECMI Mandaluyong family.</p>
         <button type="button" onClick={() => onImageSelect(0)}>
-          View Our Community
+          Gallery
         </button>
       </div>
     </section>

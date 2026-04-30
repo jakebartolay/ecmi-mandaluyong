@@ -37,23 +37,25 @@ export default function Footer() {
       </div>
 
       <div className="footer-directory" data-aos="fade-up" data-aos-delay="120">
-        <div className="footer-brand-block">
-          <a href="#top" aria-label="Back to top" className="footer-logo-link">
-            <img src={logo} alt="ECMI Mandaluyong logo" />
+        <div className="footer-brand-block" style={{ textAlign: 'center', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '1.5rem' }}>
+          <a href="#top" aria-label="Back to top" className="footer-logo-link" style={{ background: 'none', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+            <img src={logo} alt="ECMI Mandaluyong logo" style={{ width: '200px', height: 'auto' }} />
           </a>
-          <p>
+          <p style={{ maxWidth: '500px', lineHeight: 1.8 }}>
             Emmanuel Church Ministries International - Mandaluyong. A community growing together in worship,
             fellowship, and faith.
           </p>
         </div>
 
-        <nav className="footer-column" aria-label="Footer navigation">
+        <nav className="footer-column" aria-label="Footer navigation" style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
           <h3>Menu</h3>
-          {footerLinks.map((link) => (
-            <a key={link.href} href={link.href}>
-              {link.label}
-            </a>
-          ))}
+          <div style={{ display: 'flex', flexWrap: 'wrap', gap: '1rem', alignItems: 'center' }}>
+            {footerLinks.map((link) => (
+              <a key={link.href} href={link.href}>
+                {link.label}
+              </a>
+            ))}
+          </div>
         </nav>
 
         <div className="footer-column footer-contact-column">

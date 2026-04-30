@@ -28,7 +28,13 @@ const galleryImages = [
   { url: 'https://images.unsplash.com/photo-1478147427282-58a87a120781?w=800', caption: 'Prayer and Worship' },
   { url: 'https://images.unsplash.com/photo-1523803326055-9729b9e02e5a?w=800', caption: 'Serving Together' },
   { url: 'https://images.unsplash.com/photo-1515168833906-d2a3b82b302b?w=800', caption: 'Sunday Moments' },
-  { url: 'https://images.unsplash.com/photo-1527529482837-4698179dc6ce?w=800', caption: 'Community Celebration' }
+  { url: 'https://images.unsplash.com/photo-1527529482837-4698179dc6ce?w=800', caption: 'Community Celebration' },
+  { url: 'https://images.unsplash.com/photo-1529333166437-7750a6dd5a70?w=800', caption: 'Growing Together' },
+  { url: 'https://images.unsplash.com/photo-1559027615-cd4628902d4a?w=800', caption: 'Serving the City' },
+  { url: 'https://images.unsplash.com/photo-1521737604893-d14cc237f11d?w=800', caption: 'Team Fellowship' },
+  { url: 'https://images.unsplash.com/photo-1543269865-cbf427effbad?w=800', caption: 'Group Gathering' },
+  { url: 'https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?w=800', caption: 'Ministry Planning' },
+  { url: 'https://images.unsplash.com/photo-1519389950473-47ba0277781c?w=800', caption: 'Creative Ministry' }
 ];
 
 const upcomingEvents = [
