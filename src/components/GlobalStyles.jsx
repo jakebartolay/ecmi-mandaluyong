@@ -853,10 +853,56 @@ export default function GlobalStyles() {
         }
       }
 
+      .gallery-circle-container {
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        z-index: 2;
+        pointer-events: none;
+      }
+
+      .gallery-circle-image {
+        position: absolute;
+        width: 140px;
+        height: 140px;
+        border-radius: 50%;
+        overflow: hidden;
+        border: 0;
+        padding: 0;
+        background: #d7d1c6;
+        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transform: translate(-50%, -50%);
+        pointer-events: auto;
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+      }
+
+      .gallery-circle-image:hover {
+        transform: translate(-50%, -50%) scale(1.1);
+        box-shadow: 0 12px 32px rgba(0, 0, 0, 0.2);
+      }
+
+      .gallery-circle-image img {
+        width: 100%;
+        height: 100%;
+        display: block;
+        object-fit: cover;
+        transition: transform 0.55s cubic-bezier(0.22, 1, 0.36, 1);
+      }
+
+      .gallery-circle-image:hover img {
+        transform: scale(1.08);
+      }
+
       .gallery-float {
         position: absolute;
         z-index: 2;
-        display: block;
+        display: none;
         overflow: hidden;
         border: 0;
         padding: 0;
@@ -887,7 +933,7 @@ export default function GlobalStyles() {
         top: clamp(5rem, 8vh, 6rem);
         width: min(400px, 25vw);
         height: min(480px, 54vh);
-        animation: galleryFloatIdle 7s ease-in-out infinite;
+        animation: none;
       }
 
       .gallery-float-right {
@@ -895,7 +941,7 @@ export default function GlobalStyles() {
         top: clamp(3rem, 7vh, 5.5rem);
         width: min(265px, 16vw);
         height: min(310px, 35vh);
-        animation: galleryFloatIdle 8s ease-in-out infinite reverse;
+        animation: none;
       }
 
       .gallery-float-bottom {

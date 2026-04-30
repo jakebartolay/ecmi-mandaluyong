@@ -236,27 +236,41 @@ export default function GallerySection({ images, onImageSelect }) {
         <span className="gallery-network-node node-center" />
       </div>
 
-      {!isMobile && floatingImages.filter(({ image }) => image).map(({ image, index, className }) => (
-        <button
-          key={image.caption}
-          ref={(element) => {
-            imageRefs.current[index] = element;
-          }}
-          type="button"
-          className={className}
-          onClick={() => onImageSelect(index)}
-          onMouseEnter={() => setHoveredImageIndex(index)}
-          onMouseLeave={() => setHoveredImageIndex(null)}
-          aria-label={`Open ${image.caption}`}
-        >
-          <img src={image.url} alt={image.caption} />
-          {index === 0 && (
-            <span className="gallery-play-badge" aria-hidden="true">
-              <Play size={44} fill="currentColor" strokeWidth={0} />
-            </span>
-          )}
-        </button>
-      ))}
+      <div className="gallery-circle-container">
+        {!isMobile && floatingImages.filter(({ image }) => image).map(({ image, index }) => {
+          const totalImages = floatingImages.filter(({ image: img }) => img).length;
+          const angle = (index / totalImages) * 360;
+          const radius = 300;
+          const x = Math.cos((angle - 90) * Math.PI / 180) * radius;
+          const y = Math.sin((angle - 90) * Math.PI / 180) * radius;
+          
+          return (
+            <button
+              key={image.caption}
+              ref={(element) => {
+                imageRefs.current[index] = element;
+              }}
+              type="button"
+              className="gallery-circle-image"
+              onClick={() => onImageSelect(index)}
+              onMouseEnter={() => setHoveredImageIndex(index)}
+              onMouseLeave={() => setHoveredImageIndex(null)}
+              aria-label={`Open ${image.caption}`}
+              style={{
+                left: `calc(50% + ${x}px)`,
+                top: `calc(50% + ${y}px)`
+              }}
+            >
+              <img src={image.url} alt={image.caption} />
+              {index === 0 && (
+                <span className="gallery-play-badge" aria-hidden="true">
+                  <Play size={44} fill="currentColor" strokeWidth={0} />
+                </span>
+              )}
+            </button>
+          );
+        })}
+      </div>
 
       <div className="gallery-center-copy">
         <div className="section-kicker">003 / Gallery</div>
