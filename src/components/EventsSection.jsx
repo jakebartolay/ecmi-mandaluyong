@@ -5,8 +5,8 @@ export default function EventsSection({ events }) {
   return (
     <section id="events" className="page-section-anchor lagom-section" style={{ padding: '10rem 2rem', background: 'white', minHeight: '100vh', display: 'flex', alignItems: 'center' }}>
       <div style={{ maxWidth: '1280px', width: '100%', margin: '0 auto' }}>
-        <div className="section-kicker reveal-on-scroll reveal-up">002 / Events</div>
-        <h2 className="reveal-on-scroll reveal-up" style={{
+        <div className="section-kicker" data-aos="fade-up">002 / Events</div>
+        <h2 data-aos="fade-up" style={{
           fontFamily: '"Playfair Display", serif',
           fontSize: 'clamp(3.5rem, 8vw, 7.8rem)',
           fontWeight: 700,
@@ -18,7 +18,7 @@ export default function EventsSection({ events }) {
         </h2>
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(300px, 1fr))', gap: '2rem' }}>
           {events.map((event, index) => (
-            <div key={event.title} className={`reveal-on-scroll reveal-up reveal-delay-${Math.min(index + 1, 4)}`} style={{
+            <div key={event.title} data-aos="fade-up" data-aos-delay={Math.min(index + 1, 4) * 90} style={{
               background: 'linear-gradient(135deg, #fef3e2 0%, #fde8c8 100%)',
               borderRadius: '16px',
               padding: '2rem',

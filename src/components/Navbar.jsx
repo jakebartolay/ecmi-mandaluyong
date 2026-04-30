@@ -5,6 +5,8 @@ import logo from '../assets/logo.png';
 export default function Navbar({ isScrolled }) {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [activeSection, setActiveSection] = useState('top');
+  const [isTopNavHidden, setIsTopNavHidden] = useState(false);
+  const [isSideNavVisible, setIsSideNavVisible] = useState(false);
   const isSolidNav = isScrolled || isMenuOpen;
 
   useEffect(() => {
@@ -25,7 +27,8 @@ export default function Navbar({ isScrolled }) {
     { href: '#events', label: 'Events' },
     { href: '#gallery', label: 'Gallery' },
     { href: '#live-stream', label: 'Live' },
-    { href: '#give', label: 'Give' }
+    { href: '#give', label: 'Give' },
+    { href: '#visit', label: 'Visit' }
   ];
   const topNavLinks = [{ href: '#top', label: 'Home' }, ...navLinks];
 
@@ -33,6 +36,8 @@ export default function Navbar({ isScrolled }) {
     const sectionIds = navLinks.map((link) => link.href.replace('#', ''));
 
     const updateActiveSection = () => {
+      const isMobileView = window.matchMedia('(max-width: 768px)').matches;
+      const activationLine = isMobileView ? 96 : 1;
       const currentSection = sectionIds.reduce((current, sectionId) => {
         const section = document.getElementById(sectionId);
 
@@ -41,10 +46,20 @@ export default function Navbar({ isScrolled }) {
         }
 
         const sectionTop = section.getBoundingClientRect().top;
-        return sectionTop <= 140 ? sectionId : current;
+        return sectionTop <= activationLine ? sectionId : current;
       }, 'top');
+      const aboutSection = document.getElementById('about');
+      const footerSection = document.getElementById('footer');
+      const isFooterVisible = footerSection
+        ? footerSection.getBoundingClientRect().top <= window.innerHeight * 0.72
+        : false;
+      const shouldSwitchToSideNav = !isMobileView && aboutSection
+        ? aboutSection.getBoundingClientRect().top <= activationLine
+        : false;
 
       setActiveSection(currentSection);
+      setIsTopNavHidden(shouldSwitchToSideNav);
+      setIsSideNavVisible(shouldSwitchToSideNav && !isFooterVisible);
     };
 
     updateActiveSection();
@@ -61,9 +76,32 @@ export default function Navbar({ isScrolled }) {
     setIsMenuOpen(false);
   };
 
+  const scrollToSection = (href, event) => {
+    event.preventDefault();
+
+    const sectionId = href.replace('#', '');
+    const section = document.getElementById(sectionId);
+
+    if (!section) {
+      return;
+    }
+
+    closeMenu();
+
+    window.history.pushState(null, '', href);
+
+    if (sectionId === 'top') {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    } else {
+      section.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+
+    setActiveSection(sectionId);
+  };
+
   return (
     <nav
-      className={`site-nav ${isScrolled ? 'is-top-hidden' : ''}`}
+      className={`site-nav ${isSolidNav ? 'is-solid' : ''} ${isTopNavHidden ? 'is-top-hidden' : ''}`}
       style={{
         '--mobile-nav-surface': isSolidNav ? 'rgba(255, 255, 255, 0.98)' : 'transparent',
         '--mobile-nav-border': isSolidNav ? '1px solid rgba(30, 64, 175, 0.1)' : '0 solid transparent',
@@ -95,7 +133,7 @@ export default function Navbar({ isScrolled }) {
           className="mobile-nav-logo"
           href="#top"
           aria-label="Back to top"
-          onClick={closeMenu}
+          onClick={(event) => scrollToSection('#top', event)}
         >
           <img src={logo} alt="ECMI Mandaluyong logo" />
         </a>
@@ -106,7 +144,7 @@ export default function Navbar({ isScrolled }) {
               key={link.href}
               className={`nav-link ${activeSection === link.href.replace('#', '') ? 'is-active' : ''} ${isSolidNav ? 'is-solid' : ''}`}
               href={link.href}
-              onClick={closeMenu}
+              onClick={(event) => scrollToSection(link.href, event)}
               style={{
                 color: isSolidNav ? '#1e293b' : 'white',
                 textDecoration: 'none',
@@ -120,12 +158,13 @@ export default function Navbar({ isScrolled }) {
           ))}
         </div>
       </div>
-      <div className={`desktop-side-nav ${isScrolled ? 'is-visible' : ''}`} aria-label="Section navigation">
+      <div className={`desktop-side-nav ${isSideNavVisible ? 'is-visible' : ''}`} aria-label="Section navigation">
         {navLinks.map((link) => (
           <a
             key={link.href}
             className={`desktop-side-nav-link ${activeSection === link.href.replace('#', '') ? 'is-active' : ''}`}
             href={link.href}
+            onClick={(event) => scrollToSection(link.href, event)}
           >
             {link.label}
           </a>
@@ -135,6 +174,7 @@ export default function Navbar({ isScrolled }) {
         className={`back-to-top-button ${isScrolled ? 'is-visible' : ''}`}
         href="#top"
         aria-label="Back to top"
+        onClick={(event) => scrollToSection('#top', event)}
       >
         <ArrowUp size={22} />
       </a>

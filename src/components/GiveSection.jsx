@@ -5,8 +5,8 @@ export default function GiveSection() {
   return (
     <section id="give" className="page-section-anchor lagom-section" style={{ padding: '10rem 2rem', background: 'linear-gradient(135deg, #fef3e2 0%, #fde8c8 100%)', minHeight: '100vh', display: 'flex', alignItems: 'center' }}>
       <div style={{ maxWidth: '920px', width: '100%', margin: '0 auto' }}>
-        <div className="section-kicker reveal-on-scroll reveal-up">005 / Give</div>
-        <h2 className="reveal-on-scroll reveal-up" style={{
+        <div className="section-kicker" data-aos="fade-up">005 / Give</div>
+        <h2 data-aos="fade-up" style={{
           fontFamily: '"Playfair Display", serif',
           fontSize: 'clamp(3.5rem, 8vw, 7.8rem)',
           fontWeight: 700,
@@ -16,10 +16,10 @@ export default function GiveSection() {
         }}>
           Give Online
         </h2>
-        <p className="reveal-on-scroll reveal-up reveal-delay-1" style={{ fontSize: '1.1rem', color: '#475569', marginBottom: '3rem', lineHeight: 1.8 }}>
+        <p data-aos="fade-up" data-aos-delay="120" style={{ fontSize: '1.1rem', color: '#475569', marginBottom: '3rem', lineHeight: 1.8 }}>
           Your generous giving helps us continue our mission to spread the Gospel and serve our community. Thank you for your support!
         </p>
-        <div className="reveal-on-scroll reveal-scale reveal-delay-2" style={{
+        <div data-aos="zoom-in" data-aos-delay="180" style={{
           background: 'white',
           borderRadius: '20px',
           padding: '3rem',

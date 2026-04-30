@@ -1,5 +1,8 @@
 import React, { useEffect, useState } from 'react';
+import AOS from 'aos';
+import 'aos/dist/aos.css';
 import AboutSection from './components/AboutSection.jsx';
+import CustomScrollbar from './components/CustomScrollbar.jsx';
 import EventsSection from './components/EventsSection.jsx';
 import Footer from './components/Footer.jsx';
 import GalleryModal from './components/GalleryModal.jsx';
@@ -8,6 +11,7 @@ import GiveSection from './components/GiveSection.jsx';
 import GlobalStyles from './components/GlobalStyles.jsx';
 import HeroSection from './components/HeroSection.jsx';
 import LiveStreamSection from './components/LiveStreamSection.jsx';
+import LocationSection from './components/LocationSection.jsx';
 import Navbar from './components/Navbar.jsx';
 
 const galleryImages = [
@@ -16,7 +20,15 @@ const galleryImages = [
   { url: 'https://images.unsplash.com/photo-1529070538774-1843cb3265df?w=800', caption: 'Community Outreach' },
   { url: 'https://images.unsplash.com/photo-1511895426328-dc8714191300?w=800', caption: 'Prayer Meeting' },
   { url: 'https://images.unsplash.com/photo-1501196354995-cbb51c65aaea?w=800', caption: 'Bible Study' },
-  { url: 'https://images.unsplash.com/photo-1516589178581-6cd7833ae3b2?w=800', caption: 'Worship Team' }
+  { url: 'https://images.unsplash.com/photo-1516589178581-6cd7833ae3b2?w=800', caption: 'Worship Team' },
+  { url: 'https://images.unsplash.com/photo-1529156069898-49953e39b3ac?w=800', caption: 'Church Family' },
+  { url: 'https://images.unsplash.com/photo-1511632765486-a01980e01a18?w=800', caption: 'Small Groups' },
+  { url: 'https://images.unsplash.com/photo-1506869640319-fe1a24fd76dc?w=800', caption: 'Fellowship Moments' },
+  { url: 'https://images.unsplash.com/photo-1491438590914-bc09fcaaf77a?w=800', caption: 'Shared Meals' },
+  { url: 'https://images.unsplash.com/photo-1478147427282-58a87a120781?w=800', caption: 'Prayer and Worship' },
+  { url: 'https://images.unsplash.com/photo-1523803326055-9729b9e02e5a?w=800', caption: 'Serving Together' },
+  { url: 'https://images.unsplash.com/photo-1515168833906-d2a3b82b302b?w=800', caption: 'Sunday Moments' },
+  { url: 'https://images.unsplash.com/photo-1527529482837-4698179dc6ce?w=800', caption: 'Community Celebration' }
 ];
 
 const upcomingEvents = [
@@ -42,23 +54,13 @@ export default function ECMIMandaluyongWebsite() {
   }, []);
 
   useEffect(() => {
-    const revealItems = document.querySelectorAll('.reveal-on-scroll');
-
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach((entry) => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('is-visible');
-          observer.unobserve(entry.target);
-        }
-      });
-    }, {
-      threshold: 0.16,
-      rootMargin: '0px 0px -8% 0px'
+    AOS.init({
+      duration: 950,
+      easing: 'ease-out-cubic',
+      once: true,
+      offset: 90,
+      anchorPlacement: 'top-bottom'
     });
-
-    revealItems.forEach((item) => observer.observe(item));
-
-    return () => observer.disconnect();
   }, []);
 
   const openGalleryModal = (index) => {
@@ -92,6 +94,7 @@ export default function ECMIMandaluyongWebsite() {
       <GallerySection images={galleryImages} onImageSelect={openGalleryModal} />
       <LiveStreamSection />
       <GiveSection />
+      <LocationSection />
       <Footer />
 
       {isGalleryOpen && (
@@ -104,6 +107,7 @@ export default function ECMIMandaluyongWebsite() {
         />
       )}
 
+      <CustomScrollbar />
       <GlobalStyles />
     </div>
   );

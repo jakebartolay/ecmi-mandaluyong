@@ -5,11 +5,11 @@ const mapsLink = 'https://www.google.com/maps/place/Albeso+Space/@14.5793337,121
 
 export default function AboutSection() {
   return (
-    <section id="about" className="page-section-anchor lagom-section" style={{ padding: '10rem 2rem', maxWidth: '1280px', margin: '0 auto', minHeight: '100vh', display: 'flex', alignItems: 'center' }}>
+    <section id="about" className="page-section-anchor lagom-section about-section" style={{ padding: '4.5rem 2rem 10rem', maxWidth: '1280px', margin: '0 auto', minHeight: '100vh', display: 'flex', alignItems: 'flex-start' }}>
       <div style={{ width: '100%' }}>
-        <div className="section-kicker reveal-on-scroll reveal-up">001 / About</div>
+        <div className="section-kicker" data-aos="fade-up">001 / About</div>
         <div style={{ display: 'grid', gridTemplateColumns: 'minmax(0, 1.15fr) minmax(320px, 0.85fr)', gap: '5rem', alignItems: 'center' }}>
-        <div className="reveal-on-scroll reveal-up">
+        <div data-aos="fade-up">
           <h2 style={{
             fontFamily: '"Playfair Display", serif',
             fontSize: 'clamp(3.5rem, 8vw, 7.8rem)',
@@ -18,7 +18,7 @@ export default function AboutSection() {
             marginBottom: '2rem',
             lineHeight: 0.95
           }}>
-            Welcome Home
+            ECMI
           </h2>
           <p style={{ fontSize: 'clamp(1.15rem, 1.8vw, 1.45rem)', lineHeight: 1.9, color: '#475569', marginBottom: '1.5rem', maxWidth: '760px' }}>
             ECMI Mandaluyong is a vibrant community of believers passionate about knowing God, making disciples, and transforming lives through the power of the Gospel.
@@ -27,7 +27,7 @@ export default function AboutSection() {
             Whether you're new to faith or have been walking with Christ for years, there's a place for you here. Come as you are, and experience the love of God in our midst.
           </p>
         </div>
-        <div className="reveal-on-scroll reveal-up reveal-delay-1" style={{
+        <div data-aos="fade-up" data-aos-delay="120" style={{
           background: 'linear-gradient(135deg, #1e40af 0%, #2563eb 100%)',
           borderRadius: '20px',
           padding: '3rem',
